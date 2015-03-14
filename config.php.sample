@@ -1,0 +1,10 @@
+<?php
+// Sample config.php 
+// This holds all variables that you may not want to get committed into a git repo. 
+
+namespace libMBTA;
+
+// This is the testing key. DO NOT USE IN PRODUCTION.
+$APIKEY = "wX9NwuHnZU2ToO7GmGR9uw";
+
+?>
