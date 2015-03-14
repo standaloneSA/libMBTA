@@ -12,7 +12,7 @@ class routes extends mbtaObj {
 	function __construct() { 
 		parent::__construct(); 
 		$results = $this->queryMBTA("routes");
-		$this->routes = json_decode($results); 
+		$this->routes = json_decode($results, true); 
 	}
 
 	public function getRoutes() { 
