@@ -56,7 +56,7 @@ class mbtaObj {
 		// This function checks for the existance of an "error" element in the json and
 		// if found, returns the message, otherwise returns zero. 
 
-		if ($response["error"]) { 
+		if (array_key_exists("error", $response)) { 
 			return $response["error"]["message"];
 		} else {
 			return 0; 

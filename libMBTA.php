@@ -14,19 +14,22 @@ require_once("generic.php");
 //require_once("vehicles.php"); 
 //require_once("predictions.php"); 
 //require_once("schedule.php"); 
-//require_once("stops.php"); 
+require_once("stops.php"); 
 require_once("routes.php"); 
 
-$route = new routes; 
+$stops = new stops; 
+
+$lat = "42.3"; 
+$lon = "-71.0"; 
 
 try { 
-	$arrRoutes = $route->getRoutesByStop("70A5"); 
-} catch ( RouteNotAvailable $e) { 
+	$arrStops = $stops->getStopsByLocation(array($lat, $lon)); 
+} catch ( StopNotAvailable $e) { 
 	echo $e->errorMessage(); 
 	exit;
 }
 
-print_r($arrRoutes); 
+print_r($arrStops); 
 
 
 ?>

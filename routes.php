@@ -14,8 +14,13 @@ class routes extends mbtaObj {
 	}
 
 	public function getAllRoutes() {
-		$this->routes = $this->queryMBTA("routes");
-		return $this->routes; 
+		$results = $this->queryMBTA("routes");
+		if ( $this->isError($results) ) { 
+			throw new RouteNotAvailable($this->isError($results)); 
+		} else { 
+			$this->routes = $results; 
+			return $this->routes; 
+		}
 	}
 
 	public function getRoutesByStop($stopID) { 
