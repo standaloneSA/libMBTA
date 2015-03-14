@@ -19,7 +19,14 @@ require_once("routes.php");
 
 $route = new routes; 
 
-print_r($route->getRoutes());
+try { 
+	$arrRoutes = $route->getRoutesByStop("70A5"); 
+} catch ( RouteNotAvailable $e) { 
+	echo $e->errorMessage(); 
+	exit;
+}
+
+print_r($arrRoutes); 
 
 
 ?>

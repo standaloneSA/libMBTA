@@ -15,14 +15,15 @@ class mbtaObj {
 		$this->initTime = new \DateTime('now'); 
 	} 
 
-	protected function queryMBTA($query,$otherParams = "", $format = "json") { 
+	protected function queryMBTA($query,$otherParams = "") { 
 		// Example: 
 		// 	queryMBTA("routesbystop", "stop=place-bbsta", "xml")
 		// or
 		// 	queryMBTA("routes"); 
 		//
 		// Returns: 
-		// 	Raw content from server
+		// 	Associative array consisting of json_decoded information
+		// 	from the server.
 		//
 		// Throws:
 		// 	Exception ServerNotAvailable
@@ -35,7 +36,7 @@ class mbtaObj {
 			$otherParams = "&" . $otherParams;
 		}
 
-		$url = $this->baseURL . $query . "?api_key=" . $APIKEY .  $otherParams . "&format=$format";
+		$url = $this->baseURL . $query . "?api_key=" . $APIKEY .  $otherParams . "&format=json";
 		print "URL: $url\n"; 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
@@ -47,23 +48,44 @@ class mbtaObj {
 
 		curl_close($ch); 
 
-		return $result; 
+		return json_decode($result, true); 
 
 	} // end queryMBTA()
 
+	protected function isError($response) { 
+		// This function checks for the existance of an "error" element in the json and
+		// if found, returns the message, otherwise returns zero. 
+
+		if ($response["error"]) { 
+			return $response["error"]["message"];
+		} else {
+			return 0; 
+		}
+	}
+
 } // end class mbtaObj
 
-class ServerNotAvailable extends \RuntimeException { protected $code = 100; }
-class RouteNotAvailable extends \RuntimeException { protected $code = 200; } 
-class ScheduleNotAvailable extends \RuntimeException { protected $code = 300; } 
-class StopNotAvailable extends \RuntimeException { protected $code = 400; } 
-class PlaceNotAvailable extends \RuntimeException { protected $code = 500; } 
-class VehicleNotAvailable extends \RuntimeException { protected $code = 600; } 
-class TripNotAvailable extends \RuntimeException { protected $code = 700; } 
-class PredictionNotAvailable extends \RuntimeException { protected $code = 800; } 
+class MBTAException extends \Exception { 
+	protected $code = 0; 
+
+	public function errorMessage() { 
+		$errorMessage = "Error:\n   File: " . $this->getFile() . "\n   Line: " . $this->getLine()
+			. "\n   Code: " . $this->code . "\n   Message: " . $this->getMessage() . "\n"; 
+		return $errorMessage; 
+	}
+}
+
+class ServerNotAvailable extends MBTAException { protected $code = 100; }
+class RouteNotAvailable extends MBTAException { protected $code = 200; } 
+class ScheduleNotAvailable extends MBTAException { protected $code = 300; } 
+class StopNotAvailable extends MBTAException { protected $code = 400; } 
+class PlaceNotAvailable extends MBTAException { protected $code = 500; } 
+class VehicleNotAvailable extends MBTAException { protected $code = 600; } 
+class TripNotAvailable extends \Exception { protected $code = 700; } 
+class PredictionNotAvailable extends \Exception { protected $code = 800; } 
 
 // Generic catch-all if it doesn't fit the above
-class InformationNotAvailable extends \RuntimeException { protected $code = 900; } 
+class InformationNotAvailable extends \Exception { protected $code = 900; } 
 
 
 ?>
