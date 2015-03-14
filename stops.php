@@ -7,14 +7,13 @@ namespace libMBTA;
 include_once("generic.php"); 
 
 class stops extends mbtaObj { 
-	public $allRoutes = array();
 
 	function __construct() { 
 		parent::__construct(); 
 	}
 
 	public function getStopsByRoute($stopID) { 
-		$results = $this->queryMBTA("stopsbyroute", "route=$stopID"); 
+		$results = $this->queryMBTA("stopsbyroute", "route=" . rawurlencode($stopID)); 
 		
 		if ( $this->isError($results) ) { 
 			throw new StopNotAvailable($this->isError($results)); 

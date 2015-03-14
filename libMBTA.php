@@ -13,23 +13,25 @@ require_once("generic.php");
 //require_once("alerts.php"); 
 //require_once("vehicles.php"); 
 //require_once("predictions.php"); 
-//require_once("schedule.php"); 
+require_once("schedule.php"); 
 require_once("stops.php"); 
 require_once("routes.php"); 
 
-$stops = new stops; 
+$schedules = new schedules; 
 
-$lat = "42.3"; 
-$lon = "-71.0"; 
+$params = array(
+	'direction'	=> '1', 
+	'max_time'	=> '120'
+); 
 
 try { 
-	$arrStops = $stops->getStopsByLocation(array($lat, $lon)); 
-} catch ( StopNotAvailable $e) { 
+	$arrSchedules = $schedules->getScheduleByRoute("CR-Franklin", $params); 
+} catch ( ScheduleNotAvailable $e) { 
 	echo $e->errorMessage(); 
 	exit;
 }
 
-print_r($arrStops); 
+print_r($arrSchedules); 
 
 
 ?>
