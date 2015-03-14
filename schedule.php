@@ -29,8 +29,8 @@ class schedules extends mbtaObj {
 		// Example: 
 		//
 		// getScheduleByStop("Back Bay", array('route' => 'CR-Providence', 
-		// 												'direction' => '1', 
-		// 												'max_time' => '120')); 
+		// 	'direction' => '1', 
+		// 	'max_time' => '120')); 
 		//
 
 		$params = "stop=" . rawurlencode($stopID) . "&" . http_build_query($arrParams); 
