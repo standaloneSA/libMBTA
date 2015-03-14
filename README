@@ -1,0 +1,11 @@
+libMBTA 
+
+Still very early, but the goal is to have a PHP library to interact with the 
+MBTA realtime data API. 
+
+Information on the API can be found on the MBTA Developer site: 
+http://realtime.mbta.com/Portal/Home/Documents
+
+Please don't use the provided sample API key. Also, note that the MBTA may change
+the sample API key at any time, so check the dev site to make sure that you 
+have the most recent version. 
