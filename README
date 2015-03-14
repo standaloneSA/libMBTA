@@ -6,6 +6,8 @@ MBTA realtime data API.
 Information on the API can be found on the MBTA Developer site: 
 http://realtime.mbta.com/Portal/Home/Documents
 
+Also useful is the knowledge that the MBTA API abides by the [GTFS](https://developers.google.com/transit/gtfs/reference), which is why, for instance, the Green line and  Red Line Mattapan high speed trollies are both route type 0, but all other T service is type 1, but both have the label "Subway" - Google specifies trams, streetcars, and light rail be type 0. 
+
 Please don't use the provided sample API key. Also, note that the MBTA may change
 the sample API key at any time, so check the dev site to make sure that you 
 have the most recent version. 
