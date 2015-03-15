@@ -11,21 +11,18 @@ namespace libMBTA;
 require_once("config.php"); 
 require_once("generic.php"); 
 //require_once("alerts.php"); 
-//require_once("vehicles.php"); 
+require_once("vehicles.php"); 
 require_once("predictions.php"); 
 require_once("schedule.php"); 
 require_once("stops.php"); 
 require_once("routes.php"); 
 
-$predictions = new predictions; 
+$vehicles = new vehicles; 
 
-$params = array(
-	'include_access_alerts'	=> 'true', 
-); 
 
 try { 
-	$result = $predictions->getPredictionsByTrip("CR-Providence-CR-Weekday-Providence-Dec13-813");
-} catch ( PredictionNotAvailable $e) { 
+	$result = $vehicles->getVehiclesByTrip("CR-Providence-CR-Weekday-Providence-Dec13-813");
+} catch ( VehicleNotAvailable $e) { 
 	echo $e->errorMessage(); 
 	exit;
 }
