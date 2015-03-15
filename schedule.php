@@ -18,7 +18,7 @@ class schedules extends mbtaObj {
 		//
 		// Valid fields can be found in the MBTA docs, but currently 
 		// consist of: 
-		// 	- stop (manditory)	: GTFS-compatible stop_id 
+		// 	- stop (mandatory)	: GTFS-compatible stop_id 
 		// 	- route (opt)			: GTFS-compatible route_id
 		// 	- direction (opt)		: GTFS-compatible direction_id (bool) 
 		// 	- datetime (opt)		: Epoch time within next 7 days
@@ -53,6 +53,29 @@ class schedules extends mbtaObj {
 
 		if ( $this->isError($results) ) { 
 			throw new ScheduleNotAvailable($this->isError($results)); 
+		} else { 
+			return $results; 
+		}
+	}
+
+	public function getScheduleByTrip($tripID, $arrParams="") { 
+		// The official list of supported parameters is available on the API 
+		// documentation site, but at the time of writing, with API v2, the
+		// supported parameters are 
+		// 	- trip (mandatory)	: GTFS-compatible trip_id 
+		// 	- datetime (opt)		: Epoch time within next 7 days
+		//
+
+		if ( $arrParams != "" ) { 
+			$params = "trip=" . rawurlencode($tripID) . "&" . http_build_query($arrParams); 
+		} else { 
+			$params = "trip=" . rawurlencode($tripID); 
+		}
+
+		$results = $this->queryMBTA("schedulebytrip", $params); 
+
+		if ( $this->isError($results) ) { 
+			throw new ScheduleNotAvailable($this->isError($results));
 		} else { 
 			return $results; 
 		}

@@ -25,7 +25,7 @@ $params = array(
 ); 
 
 try { 
-	$arrSchedules = $schedules->getScheduleByRoute("CR-Franklin", $params); 
+	$arrSchedules = $schedules->getScheduleByTrip("CR-Providence-CR-Weekday-Providence-Dec13-813");
 } catch ( ScheduleNotAvailable $e) { 
 	echo $e->errorMessage(); 
 	exit;
