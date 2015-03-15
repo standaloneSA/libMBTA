@@ -81,11 +81,11 @@ class ScheduleNotAvailable extends MBTAException { protected $code = 300; }
 class StopNotAvailable extends MBTAException { protected $code = 400; } 
 class PlaceNotAvailable extends MBTAException { protected $code = 500; } 
 class VehicleNotAvailable extends MBTAException { protected $code = 600; } 
-class TripNotAvailable extends \Exception { protected $code = 700; } 
-class PredictionNotAvailable extends \Exception { protected $code = 800; } 
+class TripNotAvailable extends MBTAException { protected $code = 700; } 
+class PredictionNotAvailable extends MBTAException { protected $code = 800; } 
 
 // Generic catch-all if it doesn't fit the above
-class InformationNotAvailable extends \Exception { protected $code = 900; } 
+class InformationNotAvailable extends MBTAException { protected $code = 900; } 
 
 
 ?>

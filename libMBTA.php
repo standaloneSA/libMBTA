@@ -12,26 +12,25 @@ require_once("config.php");
 require_once("generic.php"); 
 //require_once("alerts.php"); 
 //require_once("vehicles.php"); 
-//require_once("predictions.php"); 
+require_once("predictions.php"); 
 require_once("schedule.php"); 
 require_once("stops.php"); 
 require_once("routes.php"); 
 
-$schedules = new schedules; 
+$predictions = new predictions; 
 
 $params = array(
-	'direction'	=> '1', 
-	'max_time'	=> '120'
+	'include_access_alerts'	=> 'true', 
 ); 
 
 try { 
-	$arrSchedules = $schedules->getScheduleByTrip("CR-Providence-CR-Weekday-Providence-Dec13-813");
-} catch ( ScheduleNotAvailable $e) { 
+	$result = $predictions->getPredictionsByTrip("CR-Providence-CR-Weekday-Providence-Dec13-813");
+} catch ( PredictionNotAvailable $e) { 
 	echo $e->errorMessage(); 
 	exit;
 }
 
-print_r($arrSchedules); 
+print_r($result); 
 
 
 ?>
