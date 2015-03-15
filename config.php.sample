@@ -1,6 +1,8 @@
 <?php
 // Sample config.php 
 // This holds all variables that you may not want to get committed into a git repo. 
+// 
+// Rename this to config.php
 
 namespace libMBTA;
 
