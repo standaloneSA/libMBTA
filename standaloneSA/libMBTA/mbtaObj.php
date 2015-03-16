@@ -11,11 +11,22 @@
 		public $apiVersion = "2";
 		private $baseURL = "http://realtime.mbta.com/developer/api/v2/";
 		private $initTime = "";
+		private $config = array();
 
-		public function __construct() {
+		public function __construct($configFile = null) {
 			// Using America/New_York since it's sort of the only place MBTA is applicable.
 			// Even so, this should be made configurable.  - AndyM84
 			$this->initTime = new \DateTime('now', new \DateTimeZone('America/New_York'));
+
+			$data = '';
+
+			if ($configFile !== null && !empty($configFile) && substr($configFile, -4) == "json" && file_exists($configFile)) {
+				$data = file_get_contents($configFile);
+			} else {
+				$data = file_get_contents('config.json');
+			}
+
+			$this->config = (!empty($data)) ? json_decode($data) : array('apikey' => 'null');
 		}
 
 		protected function queryMBTA($query,$otherParams = "") {
@@ -30,8 +41,6 @@
 			//
 			// Throws:
 			// 	Exception ServerNotAvailable
-
-			global $APIKEY;
 	
 			if ( $otherParams != "" ) { 
 				// We can't have two &s together or the API wigs out. By doing this we can
@@ -39,17 +48,17 @@
 				$otherParams = "&" . $otherParams;
 			}
 
-			$url = $this->baseURL . $query . "?api_key=" . $APIKEY .  $otherParams . "&format=json";
-			print "URL: $url\n"; 
+			$url = $this->baseURL . $query . "?api_key=" . $this->config['apikey'] .  $otherParams . "&format=json";
+			print "URL: $url\n";
 			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-			$result = curl_exec($ch); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$result = curl_exec($ch);
 
-			if ( ! $result ) { 
-				throw new ServerNotAvailable("Error retrieving information: " . curl_error($ch)); 
+			if (!$result) {
+				throw new ServerNotAvailable("Error retrieving information: " . curl_error($ch));
 			}
 
-			curl_close($ch); 
+			curl_close($ch);
 
 			return json_decode($result, true); 
 
@@ -66,6 +75,13 @@
 			}
 		}
 
+		public function getConfigValue($key) {
+			if (isset($this->config) && array_key_exists($key, $this->config)) {
+				return $this->config[$key];
+			}
+
+			return 'null';
+		}
 	} // end class mbtaObj
 
 	class MBTAException extends \Exception { 
