@@ -13,7 +13,9 @@
 		private $initTime = "";
 
 		public function __construct() {
-			$this->initTime = new \DateTime('now');
+			// Using America/New_York since it's sort of the only place MBTA is applicable.
+			// Even so, this should be made configurable.  - AndyM84
+			$this->initTime = new \DateTime('now', new \DateTimeZone('America/New_York'));
 		}
 
 		protected function queryMBTA($query,$otherParams = "") {
