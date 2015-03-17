@@ -27,6 +27,10 @@
 			}
 
 			$this->config = (!empty($data)) ? json_decode($data) : array('apikey' => 'null');
+			print "Object config: \n"; 
+			print_r($this->config); 
+			print "Data: \n"; 
+			print print_r(json_decode($data)) . "\n"; 
 		}
 
 		protected function queryMBTA($query,$otherParams = "") {

@@ -10,13 +10,12 @@
 	namespace standaloneSA\libMBTA;
 
 	require_once("mbtaObj.php");
-	require_once("Queries\config.php");
-	require_once("Queries\alerts.php");
-	require_once("Queries\vehicles.php");
-	require_once("Queries\predictions.php");
-	require_once("Queries\schedule.php");
-	require_once("Queries\stops.php");
-	require_once("Queries\routes.php");
+	require_once("Queries/alerts.php");
+	require_once("Queries/vehicles.php");
+	require_once("Queries/predictions.php");
+	require_once("Queries/schedule.php");
+	require_once("Queries/stops.php");
+	require_once("Queries/routes.php");
 
 	$alerts = new Queries\alerts;
 
