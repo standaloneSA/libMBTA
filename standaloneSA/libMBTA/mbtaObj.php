@@ -23,7 +23,7 @@
 			if ($configFile !== null && !empty($configFile) && substr($configFile, -4) == "json" && file_exists($configFile)) {
 				$data = file_get_contents($configFile);
 			} else {
-				$data = file_get_contents('config.json');
+				$data = file_get_contents(realpath(dirname(__FILE__)) . '/config.json');
 			}
 
 			$this->config = (!empty($data)) ? json_decode($data,TRUE) : array('apikey' => 'null');
