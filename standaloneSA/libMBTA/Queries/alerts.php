@@ -8,8 +8,25 @@
 	use standaloneSA\libMBTA as libMBTA;
 
 	class alerts extends libMBTA\mbtaObj {
-		function __construct() {
+		private $IncludeAccessAlerts = true;
+		private $IncludeServiceAlerts = true;
+
+		public function __construct() {
 			parent::__construct();
+
+			return;
+		}
+
+		public function excludeAccessAlerts() {
+			$this->IncludeAccessAlerts = false;
+
+			return $this;
+		}
+
+		public function excludeServiceAlerts() {
+			$this->IncludeServiceAlerts = false;
+
+			return $this;
 		}
 
 		public function getAlerts($arrParams="") { 
@@ -23,15 +40,40 @@
 			//
 
 			if ( $arrParams = "" ) {
-				$results = $this->queryMBTA("alerts");
-			} else {
-				$results = $this->queryMBTA("alerts", $arrParams);
+				$params = array(
+					'include_access_alerts=' . ($this->IncludeAccessAlerts) ? 'true' : 'false',
+					'include_service_alerts=' . ($this->IncludeServiceAlerts) ? 'true' : 'false'
+				);
+
+				$arrParams = implode('&', $params);
 			}
+
+			$results = $this->queryMBTA("alerts", $arrParams);
 
 			if ( $this->isError($results) ) {
 				throw new libMBTA\AlertNotAvailable($this->isError($results));
 			} else {
 				return $results;
 			}
+		}
+
+		public function includeAccessAlerts() {
+			$this->IncludeAccessAlerts = true;
+
+			return $this;
+		}
+
+		public function includeServiceAlerts() {
+			$this->IncludeServiceAlerts = true;
+
+			return $this;
+		}
+
+		public function isIncludingAccessAlerts() {
+			return $this->IncludeAccessAlerts;
+		}
+
+		public function isIncludingServiceAlerts() {
+			return $this->IncludeServiceAlerts;
 		}
 	} // end class alerts
